@@ -21,21 +21,148 @@ cube8 = iris.load_cube('/disk2/lr452/Downloads/dissic_data/dissic_Omon_MPI-ESM1-
 cube9 = iris.load_cube('/disk2/lr452/Downloads/dissic_data/dissic_Omon_NorESM2-MM_historical_r1i1p1f1_gr_199401-201412.rg.yr.so.fix.mask.nc','dissic')
 cube10 = iris.load_cube('/disk2/lr452/Downloads/dissic_data/dissic_Omon_UKESM1-0-LL_historical_r1i1p1f2_gn_199401-201412.rg.yr.so.fix.mask.nc','dissic')
 
-####### IS THERE A WAY TO DO THIS IN A FOR LOOP?
-#Taking the mean value across the 20 years
-average_across_time = cube.collapsed(['time'],iris.analysis.MEAN)
+###CUBE 1
+#Time average, depth average and longitude average 
+average_across_time1 = cube1.collapsed(['time'],iris.analysis.MEAN)
 
-#Averaging across depth
 max_depth = 100.0
-indexes = np.where(average_across_time.coord('lev').points <= max_depth)[0] #This would create error in for loop as each model names the depth variable something different
-average_across_time = average_across_time[indexes]
-average_across_depth = average_across_time.collapsed(['lev'],iris.analysis.MEAN)
+indexes = np.where(average_across_time1.coord('depth').points <= max_depth)[0]
+average_across_time1 = average_across_time1[indexes]
+average_across_depth1 = average_across_time1.collapsed(['depth'],iris.analysis.MEAN)
 
-#Averaging across longitude
-cube_region.coord('latitude').guess_bounds()
-cube_region.coord('longitude').guess_bounds()
-grid_areas = iris.analysis.cartography.area_weights(cube_region)
-global_average_variable = cube_region.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+average_across_depth1.coord('latitude').guess_bounds()
+average_across_depth1.coord('longitude').guess_bounds()
+grid_areas = iris.analysis.cartography.area_weights(average_across_depth1)
+cube1_average = average_across_depth1.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+
+###CUBE 2
+#Time average, depth average and longitude average 
+average_across_time2 = cube2.collapsed(['time'],iris.analysis.MEAN)
+
+max_depth = 100.0
+indexes = np.where(average_across_time2.coord('depth').points <= max_depth)[0]
+average_across_time2 = average_across_time2[indexes]
+average_across_depth2 = average_across_time2.collapsed(['depth'],iris.analysis.MEAN)
+
+average_across_depth2.coord('latitude').guess_bounds()
+average_across_depth2.coord('longitude').guess_bounds()
+grid_areas = iris.analysis.cartography.area_weights(average_across_depth2)
+cube2_average = average_across_depth2.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+
+###CUBE 3
+#Time average, depth average and longitude average 
+average_across_time3 = cube3.collapsed(['time'],iris.analysis.MEAN)
+
+max_depth = 100.0
+indexes = np.where(average_across_time3.coord('ocean model level').points <= max_depth)[0]
+average_across_time3 = average_across_time3[indexes]
+average_across_depth3 = average_across_time3.collapsed(['ocean model level'],iris.analysis.MEAN)
+
+average_across_depth3.coord('latitude').guess_bounds()
+average_across_depth3.coord('longitude').guess_bounds()
+grid_areas = iris.analysis.cartography.area_weights(average_across_depth3)
+cube3_average = average_across_depth3.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+
+###CUBE 4
+#Time average, depth average and longitude average 
+average_across_time4 = cube4.collapsed(['time'],iris.analysis.MEAN)
+
+max_depth = 100.0
+indexes = np.where(average_across_time4.coord('ocean model level').points <= max_depth)[0]
+average_across_time4 = average_across_time4[indexes]
+average_across_depth4 = average_across_time4.collapsed(['ocean model level'],iris.analysis.MEAN)
+
+average_across_depth4.coord('latitude').guess_bounds()
+average_across_depth4.coord('longitude').guess_bounds()
+grid_areas = iris.analysis.cartography.area_weights(average_across_depth4)
+cube4_average = average_across_depth4.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+
+###CUBE 5
+#Time average, depth average and longitude average 
+average_across_time5 = cube5.collapsed(['time'],iris.analysis.MEAN)
+
+max_depth = 100.0
+indexes = np.where(average_across_time5.coord('depth').points <= max_depth)[0]
+average_across_time5 = average_across_time5[indexes]
+average_across_depth5 = average_across_time5.collapsed(['depth'],iris.analysis.MEAN)
+
+average_across_depth5.coord('latitude').guess_bounds()
+average_across_depth5.coord('longitude').guess_bounds()
+grid_areas = iris.analysis.cartography.area_weights(average_across_depth5)
+cube5_average = average_across_depth5.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+
+###CUBE 6
+#Time average, depth average and longitude average 
+average_across_time6 = cube6.collapsed(['time'],iris.analysis.MEAN)
+
+max_depth = 100.0
+indexes = np.where(average_across_time6.coord('Vertical T levels').points <= max_depth)[0]
+average_across_time6 = average_across_time6[indexes]
+average_across_depth6 = average_across_time6.collapsed(['Vertical T levels'],iris.analysis.MEAN)
+
+average_across_depth6.coord('latitude').guess_bounds()
+average_across_depth6.coord('longitude').guess_bounds()
+grid_areas = iris.analysis.cartography.area_weights(average_across_depth6)
+cube6_average = average_across_depth6.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+
+###CUBE 7
+#Time average, depth average and longitude average 
+average_across_time7 = cube7.collapsed(['time'],iris.analysis.MEAN)
+
+max_depth = 100.0
+indexes = np.where(average_across_time7.coord('ocean sigma over depth coordinate').points <= max_depth)[0]
+average_across_time7 = average_across_time7[indexes]
+average_across_depth7 = average_across_time7.collapsed(['ocean sigma over depth coordinate'],iris.analysis.MEAN)
+
+average_across_depth7.coord('latitude').guess_bounds()
+average_across_depth7.coord('longitude').guess_bounds()
+grid_areas = iris.analysis.cartography.area_weights(average_across_depth7)
+cube7_average = average_across_depth7.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+
+###CUBE 8
+#Time average, depth average and longitude average 
+average_across_time8 = cube8.collapsed(['time'],iris.analysis.MEAN)
+
+max_depth = 100.0
+indexes = np.where(average_across_time8.coord('depth').points <= max_depth)[0]
+average_across_time8 = average_across_time8[indexes]
+average_across_depth8 = average_across_time8.collapsed(['depth'],iris.analysis.MEAN)
+
+average_across_depth8.coord('latitude').guess_bounds()
+average_across_depth8.coord('longitude').guess_bounds()
+grid_areas = iris.analysis.cartography.area_weights(average_across_depth8)
+cube8_average = average_across_depth8.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+
+
+###CUBE 9
+#Time average, depth average and longitude average 
+average_across_time9 = cube9.collapsed(['time'],iris.analysis.MEAN)
+
+max_depth = 100.0
+indexes = np.where(average_across_time2.coord('depth').points <= max_depth)[0]
+average_across_time9 = average_across_time9[indexes]
+average_across_depth9 = average_across_time9.collapsed(['depth'],iris.analysis.MEAN)
+
+average_across_depth9.coord('latitude').guess_bounds()
+average_across_depth9.coord('longitude').guess_bounds()
+grid_areas = iris.analysis.cartography.area_weights(average_across_depth9)
+cube9_average = average_across_depth9.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+
+###CUBE 10
+#Time average, depth average and longitude average 
+average_across_time10 = cube10.collapsed(['time'],iris.analysis.MEAN)
+
+max_depth = 100.0
+indexes = np.where(average_across_time9.coord('depth').points <= max_depth)[0]
+average_across_time10 = average_across_time10[indexes]
+average_across_depth10 = average_across_time10.collapsed(['depth'],iris.analysis.MEAN)
+
+average_across_depth10.coord('latitude').guess_bounds()
+average_across_depth10.coord('longitude').guess_bounds()
+grid_areas = iris.analysis.cartography.area_weights(average_across_depth10)
+cube10_average = average_across_depth10.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+
+
 
 #Take the difference in DIC concentration between 40-65 and divide by mean value
 
