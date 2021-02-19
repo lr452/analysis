@@ -40,8 +40,8 @@ cube1_average = average_across_depth1.collapsed(['longitude'],iris.analysis.MEAN
 print(cube1_average)
 print(cube1_average.coord('latitude').points)
 
-cube1_n = cube1_average[39].collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
-cube1_s = cube1_average[14].collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
+cube1_n = cube1_average[37:39].collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
+cube1_s = cube1_average[13:15].collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
 cube1_av = cube1_average[:].collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
 cube1_dic = (cube1_n - cube1_s) / cube1_av
 print(cube1_dic) 
