@@ -30,7 +30,7 @@ cube5s = iris.load_cube('/disk2/lr452/Downloads/salinity_data/so_Omon_GISS-E2-1-
 cube6s = iris.load_cube('/disk2/lr452/Downloads/salinity_data/so_Omon_IPSL-CM6A-LR_historical_r1i1p1f1_gn_199401-201412.rg.yr.so.fix.mask.nc','so')
 cube7s = iris.load_cube('/disk2/lr452/Downloads/salinity_data/so_Omon_MIROC-ES2L_historical_r1i1p1f2_gn_199401-201412.rg.yr.so.fix.mask.nc','so')
 cube8s = iris.load_cube('/disk2/lr452/Downloads/salinity_data/so_Omon_MPI-ESM1-2-LR_historical_r1i1p1f1_gn_199401-201412.rg.yr.so.fix.mask.nc','so')
-cube9s = iris.load_cube('/disk2/lr452/Downloads/salinity_data/so_Omon_NorESM2-MM_historical_r1i1p1f1_gn_199401-201412.rg.yr.so.fix.mask.nc','so')
+cube9s = iris.load_cube('/disk2/lr452/Downloads/salinity_data/so_Omon_NorESM2-MM_historical_r1i1p1f1_gr_199401-201412.rg.yr.so.fix.mask.nc','so')
 cube10s = iris.load_cube('/disk2/lr452/Downloads/salinity_data/so_Omon_UKESM1-0-LL_historical_r1i1p1f2_gn_199401-201412.rg.yr.so.fix.mask.nc','so')
 
 
@@ -87,9 +87,9 @@ average_across_time3 = cube3.collapsed(['time'],iris.analysis.MEAN)
 #print(average_across_time3) 
 
 max_depth = 100.0
-indexes = np.where(average_across_time3.coord('ocean model level').points <= max_depth)[0]
+indexes = np.where(average_across_time3.coord('lev').points <= max_depth)[0]
 average_across_time3 = average_across_time3[indexes]
-average_across_depth3 = average_across_time3.collapsed(['ocean model level'],iris.analysis.MEAN)
+average_across_depth3 = average_across_time3.collapsed(['lev'],iris.analysis.MEAN)
 
 average_across_depth3.coord('latitude').guess_bounds()
 average_across_depth3.coord('longitude').guess_bounds()
@@ -455,27 +455,27 @@ print(cube8s_so)
 
 ###CUBE 9 salinity
 #Time average, depth average and longitude average 
-#average_across_time9s = cube9s.collapsed(['time'],iris.analysis.MEAN)
+average_across_time9s = cube9s.collapsed(['time'],iris.analysis.MEAN)
 
-##print(cube9s## no depth dimension**
+print(cube9s)
 
-#max_depth = 100.0
-#indexes = np.where(average_across_time9s.coord('potential density referenced to 2000 dbar').points <= max_depth)[0]
-#average_across_time9s = average_across_time9s[indexes]
-#average_across_depth9s = average_across_time9s.collapsed(['potential density referenced to 2000 dbar'],iris.analysis.MEAN)
+max_depth = 100.0
+indexes = np.where(average_across_time9s.coord('potential density referenced to 2000 dbar').points <= max_depth)[0]
+average_across_time9s = average_across_time9s[indexes]
+average_across_depth9s = average_across_time9s.collapsed(['potential density referenced to 2000 dbar'],iris.analysis.MEAN)
 
-#average_across_depth9s.coord('latitude').guess_bounds()
-#average_across_depth9s.coord('longitude').guess_bounds()
-#grid_areas = iris.analysis.cartography.area_weights(average_across_depth9s)
-#cube9s_average = average_across_depth9s.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+average_across_depth9s.coord('latitude').guess_bounds()
+average_across_depth9s.coord('longitude').guess_bounds()
+grid_areas = iris.analysis.cartography.area_weights(average_across_depth9s)
+cube9s_average = average_across_depth9s.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
 
 #print(cube5s_average)
 #print(cube5s_average.coord('latitude').points)
 
-#cube9s_n = np.mean(cube9s_average.data[37:39])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
-#cube9s_s = np.mean(cube9s_average.data[13:15])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
-#cube9s_av = np.mean(cube9s_average.data[:])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
-#cube9s_so = (cube9s_n - cube9s_s) / cube9s_av
+cube9s_n = np.mean(cube9s_average.data[37:39])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
+cube9s_s = np.mean(cube9s_average.data[13:15])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
+cube9s_av = np.mean(cube9s_average.data[:])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
+cube9s_so = (cube9s_n - cube9s_s) / cube9s_av
 #print(cube9s_so) 
 
 
@@ -503,8 +503,8 @@ cube10s_so = (cube10s_n - cube10s_s) / cube10s_av
 print(cube10s_so) 
 
 
-variable1 = [cube1_dic, cube2_dic, cube3_dic, cube4_dic, cube5_dic, cube6_dic, cube7_dic, cube8_dic, cube10_dic]
-variable2 = [cube1s_so, cube2s_so, cube3s_so, cube4s_so, cube5s_so, cube6s_so, cube7s_so, cube8s_so, cube10s_so]
+variable1 = [cube1_dic, cube2_dic, cube3_dic, cube4_dic, cube5_dic, cube6_dic, cube7_dic, cube8_dic, cube9_dic, cube10_dic]
+variable2 = [cube1s_so, cube2s_so, cube3s_so, cube4s_so, cube5s_so, cube6s_so, cube7s_so, cube8s_so, cube9s_so, cube10s_so]
 
 plt.scatter(variable2, variable1)
 #plt.legend()
