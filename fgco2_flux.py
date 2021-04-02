@@ -9,13 +9,13 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
 
-cube = iris.load_cube('/disk2/lr452/Downloads/fgco2_data/fgco2_Omon_NorESM2-MM_historical_r1i1p1f1_gn_199401-201412.rg.yr.so.fix.mask.nc','fgco2')
+cube = iris.load_cube('/disk2/lr452/Downloads/fgco2_data/fgco2_Omon_ACCESS-ESM1-5_historical_r1i1p1f1_gn_199401-201412.rg.yr.so.fix.mask.nc','fgco2')
 
 print(cube)
 print(cube.shape)
 
 add_month_number(cube, 'time', name='month_number')
-cube2 = cube[np.where((cube.coord('month_number').points == 6) | (cube.coord('month_number') == 7) | (cube.coord('month_number') == 8))]
+cube2 = cube[np.where((cube.coord('month_number').points == 12) | (cube.coord('month_number') == 1) | (cube.coord('month_number') == 2))]
 
 #then to average this by each year, so that you have the December-Jan for each year add the 'season year', i.e. a number of each 'season'
 add_season_year(cube2, 'time', name='season_year')
@@ -26,14 +26,21 @@ cube3 = cube2.aggregated_by(['season_year'], iris.analysis.MEAN)
 
 cube4 = cube3.collapsed('time',iris.analysis.MEAN)
 
-print(cube4.coord('latitude').points)
+#print(cube4.coord('latitude').points)
+
+#west = 40
+#east = 120
+#south = -80
+#north = -40
+#temporary_cube5 = cube4.intersection(longitude = (west, east))
+#temporary_cube5b = temporary_cube5.intersection(latitude = (south,north))
 
 cube4.coord('latitude').guess_bounds()
 cube4.coord('longitude').guess_bounds()
 grid_areas = iris.analysis.cartography.area_weights(cube4)
-cube4_average = cube4.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
+cube6_average = cube4.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
 
-cube_cut = np.mean(cube4_average.data[16:26])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
+cube_cut = np.mean(cube6_average.data[17:29])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
 #cube1_flux = (cube1_n - cube1_s) / cube1_av
 print(cube_cut) 
 
