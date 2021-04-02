@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from iris.coord_categorisation import *
 from scipy.stats.mstats import *
 
-cube = iris.load_cube('/disk2/lr452/Downloads/temp_data/thetao_Omon_ACCESS-ESM1-5_historical_r1i1p1f1_gn_199401-201412.rg.yr.so.fix.mask.nc','thetao')
+cube = iris.load_cube('/disk2/lr452/Downloads/temp_data/thetao_Omon_GISS-E2-1-G_historical_r1i1p1f1_gn_199401-201412.rg.yr.so.fix.mask.nc','thetao')
 
 print(cube) 
 print(cube.shape)
