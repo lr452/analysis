@@ -6,8 +6,6 @@ from iris.coord_categorisation import *
 from matplotlib.pyplot import *
 import matplotlib as mpl
 from scipy.stats.mstats import *
-#import cartopy.crs as ccrs
-#import cartopy.feature as cfeature
 
 
 #Load in model data
@@ -22,78 +20,59 @@ cube8 = iris.load_cube('/disk2/lr452/Downloads/dissic_data/dissic_Omon_MPI-ESM1-
 cube9 = iris.load_cube('/disk2/lr452/Downloads/dissic_data/dissic_Omon_NorESM2-MM_historical_r1i1p1f1_gr_199401-201412.rg.yr.so.fix.mask.nc','dissic')
 cube10 = iris.load_cube('/disk2/lr452/Downloads/dissic_data/dissic_Omon_UKESM1-0-LL_historical_r1i1p1f2_gn_199401-201412.rg.yr.so.fix.mask.nc','dissic')
 
-print(cube1)
 
-###CUBE 1
-#Time average, depth average and longitude average 
+### CUBE 1
+##Time average 
 average_across_time1 = cube1.collapsed(['time'],iris.analysis.MEAN)
 
+##Depth average
 max_depth = 100.0
 indexes = np.where(average_across_time1.coord('depth').points <= max_depth)[0]
 average_across_time1 = average_across_time1[indexes]
 average_across_depth1 = average_across_time1.collapsed(['depth'],iris.analysis.MEAN)
 
+##Longitude average
 average_across_depth1.coord('latitude').guess_bounds()
 average_across_depth1.coord('longitude').guess_bounds()
 grid_areas = iris.analysis.cartography.area_weights(average_across_depth1)
 cube1_average = average_across_depth1.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
-print(cube1_average.shape)
-my_std = np.std([cube1_average.data])
-print(my_std)
 
-#print(cube1_average)
-#print(cube1_average.coord('latitude').points)
+##Index data
+cube1_n = np.mean(cube1_average.data[28:30])
+cube1_s = np.mean(cube1_average.data[16:18])
+cube1_av = np.mean(cube1_average.data[16:30])
 
-average_across_time1d = cube1.collapsed(['time'],iris.analysis.MEAN)
-max_depthd = 250.0
-indexesd = np.where(average_across_time1d.coord('depth').points <= max_depthd)[0]
-average_across_time1d = average_across_time1d[indexesd]
-average_across_depth1d = average_across_time1d.collapsed(['depth'],iris.analysis.MEAN)
-
-average_across_depth1d.coord('latitude').guess_bounds()
-average_across_depth1d.coord('longitude').guess_bounds()
-grid_areas = iris.analysis.cartography.area_weights(average_across_depth1d)
-cube1d_average = average_across_depth1d.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
-
-cube1_n = np.mean(cube1_average.data[28:30])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
-cube1_s = np.mean(cube1_average.data[16:18])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
-cube1_av = np.mean(cube1_average.data[16:30])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
+##Cube maths
 cube1_dic = (cube1_n - cube1_s) / cube1_av
 print(cube1_dic) 
 
 
-###CUBE 2
-#Time average, depth average and longitude average 
+### CUBE 2
+##Time average 
 average_across_time2 = cube2.collapsed(['time'],iris.analysis.MEAN)
 
+##Depth average
 max_depth = 100.0
 indexes = np.where(average_across_time2.coord('depth').points <= max_depth)[0]
 average_across_time2 = average_across_time2[indexes]
 average_across_depth2 = average_across_time2.collapsed(['depth'],iris.analysis.MEAN)
 
+##Longitude average
 average_across_depth2.coord('latitude').guess_bounds()
 average_across_depth2.coord('longitude').guess_bounds()
 grid_areas = iris.analysis.cartography.area_weights(average_across_depth2)
 cube2_average = average_across_depth2.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
 
-#print(cube2_average.coord('latitude').points)
+##Index data
+cube2_n = np.mean(cube2_average.data[26:28]))
+cube2_s = np.mean(cube2_average.data[16:18])
+cube2_av = np.mean(cube2_average.data[16:28])
 
-average_across_time2d = cube2.collapsed(['time'],iris.analysis.MEAN)
-max_depthd = 250.0
-indexesd = np.where(average_across_time2d.coord('depth').points <= max_depthd)[0]
-average_across_time2d = average_across_time2d[indexesd]
-average_across_depth2d = average_across_time2d.collapsed(['depth'],iris.analysis.MEAN)
-
-average_across_depth2d.coord('latitude').guess_bounds()
-average_across_depth2d.coord('longitude').guess_bounds()
-grid_areas = iris.analysis.cartography.area_weights(average_across_depth2d)
-cube2d_average = average_across_depth2d.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
-
-cube2_n = np.mean(cube2_average.data[26:28])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
-cube2_s = np.mean(cube2_average.data[16:18])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
-cube2_av = np.mean(cube2_average.data[16:28])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
+##Cube maths
 cube2_dic = (cube2_n - cube2_s) / cube2_av
 print(cube2_dic) 
+
+
 
 ###CUBE 3
 #Time average, depth average and longitude average 
@@ -328,64 +307,76 @@ cube9_av = np.mean(cube9_average.data[15:27])#.collapsed(['latitude'],iris.analy
 cube9_dic = (cube9_n - cube9_s) / cube9_av
 print(cube9_dic)
 
-###CUBE 10
-#Time average, depth average and longitude average 
+### CUBE 10
+##Time average
 average_across_time10 = cube10.collapsed(['time'],iris.analysis.MEAN)
 
+##Depth average
 max_depth = 100.0
 indexes = np.where(average_across_time9.coord('depth').points <= max_depth)[0]
 average_across_time10 = average_across_time10[indexes]
 average_across_depth10 = average_across_time10.collapsed(['depth'],iris.analysis.MEAN)
 
+##Longitude average
 average_across_depth10.coord('latitude').guess_bounds()
 average_across_depth10.coord('longitude').guess_bounds()
 grid_areas = iris.analysis.cartography.area_weights(average_across_depth10)
 cube10_average = average_across_depth10.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
 
-#print(cube10_average.coord('latitude').points)
+##Index data
+cube10_n = np.mean(cube10_average.data[27:29])
+cube10_s = np.mean(cube10_average.data[16:18])
+cube10_av = np.mean(cube10_average.data[16:29])
 
-average_across_time10d = cube10.collapsed(['time'],iris.analysis.MEAN)
-max_depthd = 250.0
-indexesd = np.where(average_across_time10d.coord('depth').points <= max_depthd)[0]
-average_across_time10d = average_across_time10d[indexesd]
-average_across_depth10d = average_across_time10d.collapsed(['depth'],iris.analysis.MEAN)
-
-average_across_depth10d.coord('latitude').guess_bounds()
-average_across_depth10d.coord('longitude').guess_bounds()
-grid_areas = iris.analysis.cartography.area_weights(average_across_depth10d)
-cube10d_average = average_across_depth10d.collapsed(['longitude'],iris.analysis.MEAN,weights=grid_areas)
-
-cube10_n = np.mean(cube10_average.data[27:29])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
-cube10_s = np.mean(cube10_average.data[16:18])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
-cube10_av = np.mean(cube10_average.data[16:29])#.collapsed(['latitude'],iris.analysis.MEAN,weights=grid_areas)
+##Cube maths
 cube10_dic = (cube10_n - cube10_s) / cube10_av
 print(cube10_dic)
 
 
-#Load wind data
+### LOAD WIND DATA
 wind_variable = np.array([51.37, 50.68, 53.2, 50.63, 52.2, 50.47, 49.16, 53.81, 51.78])
 
 
+### ASSIGN VARIABLES
 variable1 = np.array([cube1_dic, cube2_dic, cube3_dic, cube4_dic, cube5_dic, cube6_dic, cube8_dic, cube9_dic, cube10_dic])
 variable2 = wind_variable 
 
+
+### TAKE THE CORRELATION BETWEEN THE VARIABLES
 slope,intercept,r_value,p_value,std_err = linregress(variable2, variable1)
-#print(slope)
+print(slope)
 correlation = spearmanr(variable1, variable2)
 print(correlation)
 
-plt.scatter(variable2[0], variable1[0],label='ACCESS-ESM1-5')
-plt.scatter(variable2[1], variable1[1],label='CanESM5')
-plt.scatter(variable2[2], variable1[2],label='CESM2')
-plt.scatter(variable2[3], variable1[3],label='GFDL-CM4')
-plt.scatter(variable2[4], variable1[4],label='GISS-E2-1-G')
-plt.scatter(variable2[5], variable1[5],label='IPSL-CM6A-LR')
-plt.scatter(variable2[6], variable1[6],label='MIROC-ES2L')
-plt.scatter(variable2[7], variable1[7],label='MPI-ESM1-2-LR')
-plt.scatter(variable2[8], variable1[8],label='NorESM2-MM')
-#plt.scatter(variable2[9], variable1[9],label='UKESM1-0-LL')
-#plt.plot(variable2,(slope*variable2)+intercept)
-plt.legend(bbox_to_anchor=(1.02,0.8), loc='centre left')
+
+### PLOT THE DATA
+fig, ax = plt.subplots()
+
+ax.scatter(variable2[0], variable1[0], s=125, label='ACCESS-ESM1-5', marker='*',facecolor='orangered', edgecolor='black')
+ax.scatter(variable2[1], variable1[1], s=100, label='CanESM5', marker='p', facecolor='gold', edgecolor='black')
+ax.scatter(variable2[2], variable1[2], s=100, label='CESM2', marker='<', facecolor='yellowgreen', edgecolor='black')
+ax.scatter(variable2[3], variable1[3], s=100, label='GFDL-CM4', marker='8', facecolor='dimgrey', edgecolor='black')
+ax.scatter(variable2[4], variable1[4], s=100, label='GISS-E2-1-G', marker='s', facecolor='mediumaquamarine', edgecolor='black')
+ax.scatter(variable2[5], variable1[5], s=100, label='IPSL-CM6A-LR', marker='P', facecolor='deepskyblue', edgecolor='black')
+ax.scatter(variable2[6], variable1[6], s=100, label='MIROC-ES2L', marker='X', facecolor='darkviolet', edgecolor='black')
+ax.scatter(variable2[7], variable1[7], s=100, label='MPI-ESM1-2-LR', marker='H', facecolor='hotpink', edgecolor='black')
+ax.scatter(variable2[8], variable1[8], s=75, label='NorESM2-MM', marker='D', facecolor='steelblue', edgecolor='black')
+plt.scatter(variable2[9], variable1[9], s=100, label='UKESM1-0-LL', marker='v', facecolor='darkcyan', edgecolor='black')
+
+ax.plot(variable2,(slope*variable2)+intercept, c='black', linewidth=1)
+
+ax.set_facecolor('whitesmoke')
+ax.grid(True)
+
+
+plt.xlabel('Lat of Tmax [$^\circ$S]', fontsize=10, fontweight='bold')
+plt.ylabel('$\Delta$DIC [mol $m^{-3}$]', fontsize=10, fontweight='bold')
+plt.xticks(fontsize=9, fontweight='bold')
+plt.yticks(fontsize=9, fontweight='bold')
+
+plt.legend(bbox_to_anchor=(1.02,0.8), loc='centre left', fontsize=6, frameon=False, prop=dict(weight='bold'))
+
+plt.text(50.2, -5.35, 'r=-0.789, p=0.007', fontweight='bold', fontsize=11)
+
 plt.tight_layout()
-#plt.errorbar(variable2, variable1)
 plt.show()
